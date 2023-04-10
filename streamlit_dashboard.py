@@ -47,14 +47,16 @@ if cable_option != 'All':
 
 filtered_locations = location_with_lat_long[location_with_lat_long['cable_id'].isin(filtered_cables['cable_id'])]
 
-################
+###################
 ### Plot Charts ###
-################
+###################
 
 col1, col2 = st.columns(2, gap='large')
 
+# Map of cable landings
 with col1:
-    st.header("Map of cable landings")
+    st.subheader("Map of cable landings")
+
     # Select what granularity to view the data
     location_granularity_selectbox = st.selectbox(
         'Location granularity',
@@ -62,18 +64,23 @@ with col1:
     )
 
     if location_granularity_selectbox == 'Country':
+        # Change lat/long of locations to be the overall country coordinates
         filtered_locations = (
             filtered_locations
             .drop(columns=['latitude', 'longitude'])
             .rename(columns={'latitide_country': 'latitude', 'longitude_country': 'longitude'})
         )
     elif location_granularity_selectbox == 'Lowest Available':
-        st.text("Granularity varies by location. Use caution as not all data is the same granularity.")
+        # Create alert that data may not be the best
+        st.warning("Granularity varies by location. Use caution as not all data is the same granularity.")
 
     st.map(filtered_locations[['latitude', 'longitude']])
 
+# Bar charts showing counting landing city counts
 with col2:
-    st.header("Top 20 countries with the most cable landings")
+    n_countries = 20
+
+    st.subheader(f"Top {n_countries} countries with the most cable landings")
     st.caption("A single cable landing city will be counted multiple times if accessed by multiple cables")
     country_counts = (
         filtered_locations
@@ -81,12 +88,11 @@ with col2:
         .groupby('country')['count'].count()
         .sort_values(ascending=False)
         .reset_index()
-        .head(20)
+        .head(n_countries)
     )
-    print(country_counts.head(1))
     st.bar_chart(country_counts, x='country', y='count')
 
-    st.header("Top 20 countries with the most cable landing cities")
+    st.subheader(f"Top {n_countries} countries with the most unique cable landing cities")
     st.caption("A single cable landing city is counted only once if accessed by multiple cables")
     country_counts = (
         filtered_locations[['id', 'country']]
@@ -95,7 +101,6 @@ with col2:
         .groupby('country')['count'].count()
         .sort_values(ascending=False)
         .reset_index()
-        .head(20)
+        .head(n_countries)
     )
-    print(country_counts.head(1))
     st.bar_chart(country_counts, x='country', y='count')
