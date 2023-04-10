@@ -3,6 +3,9 @@ st.set_page_config(layout="wide")
 
 import pandas as pd
 
+####################
+### collect data ###
+####################
 lat_long = pd.read_csv("cleaned_data/location_lat_long.csv", index_col=0)[['id', 'latitude', 'longitude', 'latitide_country', 'longitude_country']]
 cable = pd.read_csv("cleaned_data/cable.csv", index_col=0)
 locations = pd.read_csv("cleaned_data/location.csv", index_col=0)
@@ -14,6 +17,8 @@ assert location_with_lat_long.shape[0] == locations.shape[0]
 ####################
 ### data filters ###
 ####################
+
+st.sidebar.caption("Select filters from top to bottom")
 
 min_cable_length = int(cable['length (km)'].min())
 max_cable_length = int(cable['length (km)'].max())
@@ -49,6 +54,7 @@ filtered_locations = location_with_lat_long[location_with_lat_long['cable_id'].i
 col1, col2 = st.columns(2, gap='large')
 
 with col1:
+    st.header("Map of cable landings")
     # Select what granularity to view the data
     location_granularity_selectbox = st.selectbox(
         'Location granularity',
@@ -67,4 +73,29 @@ with col1:
     st.map(filtered_locations[['latitude', 'longitude']])
 
 with col2:
-    st.header("A dog")
+    st.header("Top 20 countries with the most cable landings")
+    st.caption("A single cable landing city will be counted multiple times if accessed by multiple cables")
+    country_counts = (
+        filtered_locations
+        .rename(columns={'id': 'count'})
+        .groupby('country')['count'].count()
+        .sort_values(ascending=False)
+        .reset_index()
+        .head(20)
+    )
+    print(country_counts.head(1))
+    st.bar_chart(country_counts, x='country', y='count')
+
+    st.header("Top 20 countries with the most cable landing cities")
+    st.caption("A single cable landing city is counted only once if accessed by multiple cables")
+    country_counts = (
+        filtered_locations[['id', 'country']]
+        .drop_duplicates()
+        .rename(columns={'id': 'count'})
+        .groupby('country')['count'].count()
+        .sort_values(ascending=False)
+        .reset_index()
+        .head(20)
+    )
+    print(country_counts.head(1))
+    st.bar_chart(country_counts, x='country', y='count')
