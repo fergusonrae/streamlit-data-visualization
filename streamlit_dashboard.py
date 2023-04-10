@@ -3,13 +3,22 @@ st.set_page_config(layout="wide")
 
 import pandas as pd
 
+LAT_LONG_URL = "https://streamlit-clean.s3.amazonaws.com/location_lat_long.csv"
+CABLE_URL = "https://streamlit-clean.s3.amazonaws.com/cable.csv"
+LOCATIONS_URL = "https://streamlit-clean.s3.amazonaws.com/location.csv"
+OWNERS_URL = "https://streamlit-clean.s3.amazonaws.com/owner.csv"
+
 ####################
 ### collect data ###
 ####################
-lat_long = pd.read_csv("cleaned_data/location_lat_long.csv", index_col=0)[['id', 'latitude', 'longitude', 'latitide_country', 'longitude_country']]
-cable = pd.read_csv("cleaned_data/cable.csv", index_col=0)
-locations = pd.read_csv("cleaned_data/location.csv", index_col=0)
-owners = pd.read_csv("cleaned_data/owner.csv", index_col=0)
+@st.cache_data
+def fetch_and_cache_data(url):
+    return pd.read_csv(url, index_col=0)
+
+lat_long = fetch_and_cache_data(LAT_LONG_URL)[['id', 'latitude', 'longitude', 'latitide_country', 'longitude_country']]
+cable = fetch_and_cache_data(CABLE_URL)
+locations = fetch_and_cache_data(LOCATIONS_URL)
+owners = fetch_and_cache_data(OWNERS_URL)
 
 location_with_lat_long = locations.merge(lat_long, on='id', how='inner')
 assert location_with_lat_long.shape[0] == locations.shape[0]
