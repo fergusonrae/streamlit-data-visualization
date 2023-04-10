@@ -19,12 +19,11 @@ Provide at least one screenshot of this data visualized by location (does not ne
 
 ### Technical Steps
 1. Scan through the JSON file to view general structure. Load JSON into a table structure to output summary metrics and explore missing data. Detail potential data cleaning given expected output. See [Exploration Notebook](exploration.ipynb).
-2. Create a rough data modeling sketch to show relationships between data points. See [Initial Data Modeling Sketch]().
-3. Create rough dashboard design doc showing expected fields to filter and display. See [Initial Dashboard Sketch]().
-4. Perform data cleaning, explore again, clean again, repeat until no known adjustments needed. Data is considered clean when it can be read directly in to the dashboarding code without column value adjustments. See [Cleaning Notebook](cleaning.ipynb).
-5. Move cleaning code out of notebook to Python script with unit test cases. TODO: See [Next Steps](#next-steps).
-6. Create final data modeling diagram. See [Final Data Modeling Diagram]().
-7. Write dashboard code and deploy. See [streamlit_dashboard.py](streamlit_dashboard.py).
+2. Create a rough data modeling sketch to show relationships between data points. See [Initial Data Modeling Sketch](initial_data_modeling_sketch.png).
+3. Perform data cleaning, explore again, clean again, repeat until no known adjustments needed. Data is considered clean when it can be read directly in to the dashboarding code without column value adjustments. See [Cleaning Notebook](cleaning.ipynb).
+4. Move cleaning code out of notebook to Python script with unit test cases. TODO: See [Next Steps](#next-steps).
+5. Create final data modeling diagram. See [Final Data Modeling Diagram](final_data_modeling_diagram.png).
+6. Write dashboard code and deploy. See [streamlit_dashboard.py](streamlit_dashboard.py).
 
 ### Screenshot
 Screenshot of the application shown below. However, if you would like to interact with this dashboard, please visit its web link [here](https://fergusonrae-streamlit-data-visualiza-streamlit-dashboard-dzop0f.streamlit.app/).
