@@ -17,10 +17,10 @@ Provide at least one screenshot of this data visualized by location (does not ne
 - No additional data or context can be provided until a POC dashboard is shown.
 
 ### Technical Steps
-1. Scan through the JSON file to view general structure. Load JSON into a table structure to output summary metrics and explore missing data. Detail potential data cleaning given expected output. See [Exploration Notebook](exploration.ipynb).
+1. Scan through the JSON file to view general structure. Load JSON into a table structure to output summary metrics and explore missing data. Detail potential data cleaning given expected output. See [Exploration Notebook](exploration.html).
 2. Create a rough data modeling sketch to show relationships between data points. See [Initial Data Modeling Sketch]().
 3. Create rough dashboard design doc showing expected fields to filter and display. See [Initial Dashboard Sketch]().
-4. Perform data cleaning, explore again, clean again, repeat until no known adjustments needed. Data is considered clean when it can be read directly in to the dashboarding code without column value adjustments. See [Cleaning Notebook](cleaning.ipynb).
+4. Perform data cleaning, explore again, clean again, repeat until no known adjustments needed. Data is considered clean when it can be read directly in to the dashboarding code without column value adjustments. See [Cleaning Notebook](cleaning.html).
 5. Move cleaning code out of notebook to Python script with unit test cases. TODO: See [Next Steps](#next-steps).
 6. Create final data modeling diagram. See [Final Data Modeling Diagram]().
 7. Write dashboard code and deploy. See [streamlit_dashboard.py](streamlit_dashboard.py).
@@ -31,11 +31,13 @@ Screenshot of the application shown below. However, if you would like to interac
 
 ### Next Steps
 
-- Request source data adjustments and additional data
-    - Inquire about potentially cleaner data
-    - Add country code
-    - Add lat/long for landing points
-    - Get the order landing points are connected for cable to visualize the general path of the cable.
+- Request source data clarifications and request additional data
+    - Clarifications
+        - RFS date, does the quarter correspond to calendar year or individual business?
+    - Additional Data
+        - Can two-letter country code be included to minimize poor text mapping?
+        - Can lat/long coordinates be added for landing points to increase granularity?
+        - Include the order landing points are connected for cable to visualize the general path of the cable? *Nice add-on to visualization if so*
 - Move data cleaning to script
     - Allows for writing unit tests.
     - Smaller pieces, easier to make future adjustments and cleanly see steps taken.
