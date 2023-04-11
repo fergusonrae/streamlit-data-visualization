@@ -32,7 +32,7 @@ st.sidebar.caption("Select filters from top to bottom")
 min_cable_length = int(cable['length (km)'].min())
 max_cable_length = int(cable['length (km)'].max())
 length_slider = st.sidebar.slider(
-    'Pipeline Length (km)', min_cable_length, max_cable_length, value=(min_cable_length, max_cable_length)
+    'Cable Length (km)', min_cable_length, max_cable_length, value=(min_cable_length, max_cable_length)
 )
 include_length_nulls = st.sidebar.checkbox("Include cables with missing length", value=True)
 
