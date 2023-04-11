@@ -29,6 +29,8 @@ Provide at least one screenshot of this data visualized by location (does not ne
 ### Screenshot
 Screenshot of the application shown below. However, if you would like to interact with this dashboard, please visit its web link [here](https://fergusonrae-streamlit-data-visualiza-streamlit-dashboard-dzop0f.streamlit.app/).
 
+![Dashboard ScreenShot](doc/dashboard_screenshot.png)
+
 
 ### Next Steps
 
