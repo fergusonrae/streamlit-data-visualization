@@ -34,7 +34,13 @@ max_cable_length = int(cable['length (km)'].max())
 length_slider = st.sidebar.slider(
     'Pipeline Length (km)', min_cable_length, max_cable_length, value=(min_cable_length, max_cable_length)
 )
-filtered_cables = cable[(cable['length (km)'] >= length_slider[0]) & (cable['length (km)'] <= length_slider[1])]
+include_length_nulls = st.sidebar.checkbox("Include cables with missing length", value=True)
+
+cable_length_filter =(cable['length (km)'] >= length_slider[0]) & (cable['length (km)'] <= length_slider[1])
+if include_length_nulls:
+    filtered_cables = cable[cable_length_filter | cable['length (km)'].isnull()]
+else:
+    filtered_cables = cable[cable_length_filter]
 filtered_owners = owners[owners['cable_id'].isin(filtered_cables['cable_id'])]
 
 owner_option = st.sidebar.selectbox(
@@ -89,27 +95,16 @@ with col1:
 with col2:
     n_countries = 20
 
-    st.subheader(f"Top {n_countries} countries with the most cable landings")
-    st.caption("A single cable landing city will be counted multiple times if accessed by multiple cables")
-    country_counts = (
+    st.subheader(f"Top {n_countries} countries with the highest count of cable landings")
+    st.caption("""
+        count: A single cable landing point will be counted multiple times if accessed by multiple cables
+        \nnunique: A single cable landing point will be counted only once even if accessed by multiple cables
+        """)
+    total_counts = (
         filtered_locations
-        .rename(columns={'id': 'count'})
-        .groupby('country')['count'].count()
-        .sort_values(ascending=False)
-        .reset_index()
-        .head(n_countries)
+        .groupby('country')
+        .agg({'id': ['count', pd.Series.nunique]})
     )
-    st.bar_chart(country_counts, x='country', y='count')
-
-    st.subheader(f"Top {n_countries} countries with the most unique cable landing cities")
-    st.caption("A single cable landing city is counted only once if accessed by multiple cables")
-    country_counts = (
-        filtered_locations[['id', 'country']]
-        .drop_duplicates()
-        .rename(columns={'id': 'count'})
-        .groupby('country')['count'].count()
-        .sort_values(ascending=False)
-        .reset_index()
-        .head(n_countries)
-    )
-    st.bar_chart(country_counts, x='country', y='count')
+    total_counts.columns = total_counts.columns.droplevel(0)
+    total_counts = total_counts.reset_index().sort_values('count', ascending=False).head(n_countries)
+    st.bar_chart(total_counts, x='country')
