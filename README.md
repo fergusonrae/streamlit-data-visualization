@@ -34,9 +34,10 @@ Screenshot of the application shown below. However, if you would like to interac
 
 ### Next Steps
 
-- Request source data clarifications and request additional data
+- Request clarifications and request additional data
     - Clarifications
         - RFS date, does the quarter correspond to calendar year or individual business?
+        - Country landing point chart, would you like distinct landing points or total number of cables connected?
     - Additional Data
         - Can two-letter country code be included to minimize poor text mapping?
         - Can lat/long coordinates be added for landing points to increase granularity?
