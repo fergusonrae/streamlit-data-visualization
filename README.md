@@ -16,6 +16,7 @@ Provide at least one screenshot of this data visualized by location (does not ne
 - Dashboard users do not have a specific use case outside of the charts requested.
 - No additional data or context can be provided until a POC dashboard is shown.
 - When `is_tbd` field is empty/None, that means False.
+- Wording of "which countries have the most submarine cable landings" is not specific in whether it is requesting distinct cable landing point locations, or how many cables are connected to the country. Assumed it is the later.
 
 ### Technical Steps
 1. Scan through the JSON file to view general structure. Load JSON into a table structure to output summary metrics and explore missing data. Detail potential data cleaning given expected output. See [Exploration Notebook](exploration.ipynb).
@@ -45,3 +46,4 @@ Screenshot of the application shown below. However, if you would like to interac
 - If frequent dashboard updates are requested, set up a CI/CD/CT pipeline to automatically test and deploy changes.
 - If future appends/writes are needed, create data update pipeline.
 - Set up login for dashboard given user emails.
+- Allow user to filter by RFS year in the dashboard
