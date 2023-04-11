@@ -45,11 +45,15 @@ filtered_owners = owners[owners['cable_id'].isin(filtered_cables['cable_id'])]
 
 owner_option = st.sidebar.selectbox(
     'Owner',
-    ['All'] + filtered_owners['owner'].drop_duplicates().sort_values().tolist()
+    ['All'] + filtered_owners['owner'].dropna().drop_duplicates().sort_values().tolist() + ['Not Provided']
 )
-if owner_option != 'All':
+if owner_option == 'Not Provided':
+    filtered_owners = filtered_owners[filtered_owners['owner'].isnull()]
+elif owner_option == 'All':
+    pass
+else:
     filtered_owners = filtered_owners[filtered_owners['owner'] == owner_option]
-    filtered_cables = cable[cable['cable_id'].isin(filtered_owners['cable_id'])]
+filtered_cables = cable[cable['cable_id'].isin(filtered_owners['cable_id'])]
 
 cable_option = st.sidebar.selectbox(
     'Cable',
